@@ -1,0 +1,73 @@
+<div>
+  <h1>Create New Task</h1>
+  
+  <div class="button-container">
+    <p-button [text]="true" [raised]="true" (onClick)="moveToTable()">
+      Table 
+    </p-button>
+  
+  </div>
+
+  <div class="center-container">
+    <p-progressSpinner *ngIf="isLoading"></p-progressSpinner>
+
+    <form
+      *ngIf="!isLoading"
+      class="task-form"
+      [formGroup]="taskForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <span class="p-float-label">
+        <input formControlName="taskName" type="text" pInputText />
+        <label for="name">Task Name</label>
+      </span>
+
+      <span class="p-float-label">
+        <input formControlName="description" type="text" pInputText />
+        <label for="description">Description</label>
+      </span>
+
+      <span class="p-float-label">
+        <p-dropdown
+          formControlName="taskType"
+          [options]="taskService.getTaskTypes()"
+          optionLabel="type"
+          placeholder="Select a Task Type"
+        ></p-dropdown>
+        <label for="float-label">Task Type</label>
+      </span>
+
+      <span class="p-float-label checkbox">
+        <p-checkbox
+          class="checkbox-span"
+          formControlName="isRepeated"
+          value="true"
+          binary="true"
+        ></p-checkbox>
+        <label class="checkbox-label" for="float-label">Repeated Task</label>
+      </span>
+
+      <span class="p-float-label">
+        <p-calendar
+          formControlName="taskDate"
+          [touchUI]="true"
+          [minDate]="minDate"
+          [showIcon]="true"
+          dateFormat="dd/mm/yy"
+        ></p-calendar>
+        <label for="float-label"> Task Date </label>
+      </span>
+
+      <div class="submit-button">
+        <p-button
+          type="submit"
+          [text]="true"
+          [raised]="true"
+          [disabled]="taskForm.invalid"
+        >
+          Create Task
+        </p-button>
+      </div>
+    </form>
+  </div>
+</div>

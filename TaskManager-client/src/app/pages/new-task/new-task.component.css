@@ -1,0 +1,47 @@
+.center-container {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  border: 3px solid #ccc;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+span {
+  margin-bottom: 15%;
+}
+
+.checkbox{
+  margin-bottom: 20%;
+}
+
+h1 {
+  text-align: left;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 32%;
+}
+
+.submit-button
+{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.checkbox-label
+{
+  margin-left: 10%;
+}
+
+.task-form
+{
+  padding-top: 5%;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+}

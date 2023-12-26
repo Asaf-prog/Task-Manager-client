@@ -1,0 +1,99 @@
+<div class="table">
+  <p-card>
+    <div class="archive-buttons">
+      <p-selectButton
+        [options]="statusTypeOptions"
+        [(ngModel)]="tasksType"
+        optionLabel="label"
+        optionValue="label"
+        (onChange)="getRelevantTasks()"
+      ></p-selectButton>
+    </div>
+    <h1 *ngIf="tasks.length > 0">Your Tasks:</h1>
+    <p-progressSpinner *ngIf="isLoading"></p-progressSpinner>
+    <p-table
+      *ngIf="!isLoading && tasks.length > 0"
+      [columns]="columns"
+      [value]="tasks"
+      responsive="true"
+      [paginator]="true"
+      [rows]="5"
+      [totalRecords]="tasksCount"
+      [showFirstLastIcon]="false"
+      (onPageChange)="onPageChange($event)"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th *ngFor="let col of columns">
+            {{ col.header }}
+          </th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-task let-columns="columns">
+        <tr>
+          <td>{{ task.id }}</td>
+          <td>{{ task.type.type }}</td>
+          <td>{{ task.name }}</td>
+          <td>{{ task.description }}</td>
+          <td>{{ task.taskStartDate | date }}</td>
+          <td>{{ task.taskEndDate | date }}</td>
+          <td>{{ task.isRepeated ? "Yes" : "No" }}</td>
+          <td>
+            <input
+              type="checkbox"
+              [checked]="task.taskEndDate !== null"
+              disabled
+            />
+          </td>
+          <td>{{ task.isArchive ? "Yes" : "No" }}</td>
+          <td>
+            <p-confirmDialog [closable]="false"></p-confirmDialog>
+            <p-button
+              severity="success"
+              [raised]="true"
+              [disabled]="task.taskEndDate"
+              (click)="
+                task.isRepeated ? confirmRepeatedTask(task) : completeTask(task)
+              "
+            >
+              {{ task.taskEndDate ? "Completed" : "Complete Task" }}
+            </p-button>
+          </td>
+          <td>
+            <p-button
+              label="Delete"
+              severity="danger"
+              [raised]="true"
+              icon="pi pi-trash"
+              (click)="deleteTask(task)"
+            />
+          </td>
+          <td>
+            <p-button
+              [label]="task.isArchive ? 'Activate' : 'To Archive'"
+              severity="secondary"
+              [raised]="true"
+              [icon]="
+                task.isArchive
+                  ? 'pi pi-caret-right'
+                  : 'pi pi-angle-double-right'
+              "
+              [disabled]="
+                task.isArchive &&
+                checkWeekPast(task.taskEndDate) &&
+                task.taskEndDate
+              "
+              (click)="changeTaskStatus(task)"
+            />
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <p class="no-data" *ngIf="!isLoading && tasks.length === 0">
+      You don't have any
+      {{ tasksType.toLowerCase() === "all" ? "" : tasksType.toLowerCase() }}
+      tasks yet.
+    </p></p-card
+  >
+</div>
